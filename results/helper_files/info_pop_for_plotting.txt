@@ -1,0 +1,47 @@
+POPNAME	POPNAMEALT	CONTINENT	WIDEPOP	POP	COL	PCH
+Ba.Kola	Ba.Kola	AFRICA_S	RHG	ba.kola	#C6DBEF	21
+Baka	Baka	AFRICA_S	RHG	baka	#9ECAE1	22
+Bi.Aka Mbati	Bi.Aka_Mbati	AFRICA_S	RHG	biakambati	#6BAED6	23
+Ba.Twa	Batwa	AFRICA_S	RHG	ba.twa	#3182BD	24
+Nsua	Nsua	AFRICA_S	RHG	nsua	#08519C	25
+Ngumba	Ngumba	AFRICA_S	AFRICA_S	ngumba	#BAE4B3	21
+Nzimé	Nzime	AFRICA_S	AFRICA_S	nzime	#74C476	22
+Ba.Kiga	Ba.Kiga	AFRICA_S	AFRICA_S	ba.kiga	#31A354	23
+Ba.Konjo	Ba.Konjo	AFRICA_S	AFRICA_S	ba.konjo	#006D2C	24
+!Xun	Xun	AFRICA_S	KS	xun	#FCBBA1	21
+Ju|'hoansi	Juhoansi	AFRICA_S	KS	juhoansi	#FC9272	22
+Nama	Nama	AFRICA_S	KS	nama	#FB6A4A	23
+Khutse San	GuiGana	AFRICA_S	KS	guigana	#DE2D26	24
+Karretjie people	Karretjie	AFRICA_S	KS	karretjie	#A50F15	25
+Biaka	Biaka	AFRICA_S	RHG	biaka	#C6DBEF	0
+Mbuti	Mbuti	AFRICA_S	RHG	mbuti	#9ECAE1	1
+#Khomani	Khomani	AFRICA_S	KS	khomani	#FCBBA1	2
+Ju|'hoansi (comp)	Juhoansi_comp	AFRICA_S	KS	juhoansi	#FC9272	3
+Lemande	Lemande	AFRICA_S	AFRICA_S	lemande	#EFEDF5	4
+Luhya	Luhya	AFRICA_S	AFRICA_S	luhya	#DADAEB	5
+Bantu Kenya	Bantu_Kenya	AFRICA_S	AFRICA_S	bantuk	#BCBDDC	7
+Bantu Herero	Bantu_Herero	AFRICA_S	AFRICA_S	bantuh	#9E9AC8	8
+Zulu	Zulu	AFRICA_S	AFRICA_S	zulu	#807DBA	9
+Bantu Tswana	Bantu_Tswana	AFRICA_S	AFRICA_S	bantut	#6A51A3	10
+Sotho	Sothospeakers	AFRICA_S	AFRICA_S	sotho	#54278F	11
+Xhosa	Xhosaspeakers	AFRICA_S	AFRICA_S	xhosa	#3F007D	12
+Gambian	Gambian	AFRICA_S	AFRICA_S	gambian	#FEE6CE	13
+Mandinka	Mandinka	AFRICA_S	AFRICA_S	mandinka	#FDD0A2	14
+Mende	Mende	AFRICA_S	AFRICA_S	mende	#FDAE6B	0
+Mandenka	Mandenka	AFRICA_S	AFRICA_S	mandenka	#FD8D3C	1
+Yoruba	Yoruba	AFRICA_S	AFRICA_S	yoruba	#F16913	5
+Esan	Esan	AFRICA_S	AFRICA_S	esan	#D94801	6
+Igbo	Igbo	AFRICA_S	AFRICA_S	igbo	#A63603	4
+Kongo	Kongo	AFRICA_S	AFRICA_S	kongo	#7F2704	5
+Dinka	Dinka	AFRICA_S	AFRICA_S	dinka	#D7B5D8	6
+Luo	Luo	AFRICA_S	AFRICA_S	luo	#DF65B0	7
+Maasai	Maasai	AFRICA_S	AFRICA_S	maasai	#CE1256	8
+Somali	Somali	AFRICA_S	AFRICA_S	somali	#FFEDA0	9
+Saharawi	Saharawi	AFRICA_N	AFRICA_N	saharawi	#FED976	10
+Mozabite	Mozabite	AFRICA_N	AFRICA_N	mozabite	#FEB24C	11
+Coloured	Coloured	AFRICA_S	AFRICA_S	coloured	black	3
+Dai	Dai	ASIA	ASIA	dai	#D9D9D9	13
+Karitiana	Karitiana	AMERICA	AMERICA	karitiana	#BDBDBD	14
+Papuan	Papuan	OCEANIA	OCEANIA	papuan	#969696	0
+French	French	EUROPE	EUROPE	french	#636363	1
+CEU	CEU	EUROPE	EUROPE	ceu	#252525	2

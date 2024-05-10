@@ -1,4 +1,6 @@
-#This is template code for mapping paired-end FASTQ. The resulting BAM is then indexed. This was applied to the data generated in this study, as well as comparative SGDP and KGP data.
+#This is template code for mapping paired-end FASTQ. The resulting BAM is then indexed.
+#This was applied to the data generated in this study, as well as comparative SGDP and KGP data.
+
 #Program version: picard/1.126, bwakit/0.7.12
 /sw/apps/bioinfo/bwakit/0.7.12/bwa.kit/seqtk mergepe input_1.fastq.gz input_2.fastq.gz \
 	| /sw/apps/bioinfo/bwakit/0.7.12/bwa.kit/bwa mem -p -t4 -R'@RG\tID:sampleID_Llane\tSM:sampleID\tPL:ILLUMINA\tLB:lib1\tPU:Lane' ${reference_hg38} - 2> logfile \

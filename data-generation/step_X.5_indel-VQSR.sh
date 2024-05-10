@@ -61,7 +61,6 @@ java -Xmx24g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 # Step 2: Apply recalibration
 trancheindel=99.0
 input=ALLDATA_X_JG.179ind.recalSNP${tranche}.vcf.gz
-out=25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites.1-22X.recalSNP${tranche}.recalINDEL
 output=ALLDATA_X_JG.179ind.recalSNP${tranche}.recalINDEL${trancheindel}.vcf.gz
 
 java -Xmx6g -jar $GATK_HOME/GenomeAnalysisTK.jar \

@@ -38,13 +38,17 @@ From this step onward, only the autosomes (inclunding the "unknown" and "random"
 
 We start by calling variants on the output of step A2; to that end, we first merge the different BAM files for each sample. This results in a first sample-specific VCF file. This is done in [step_A.3_variant-calling.sh](step_A.3_variant-calling.sh).
 
-In parallel, we perform a standard BQSR (by lane) on the output of step A2: [step_A.4_dbsnp-BQSR.sh](step_A.4_dbsnp-BQSR.sh). In step A5, we merge the resulting BAM and call variants (same procedure as in A3); we obtain a second sample-specific VCF file. This is done in []().
+In parallel, we perform a standard BQSR (by lane) on the output of step A2: [step_A.4_dbsnp-BQSR.sh](step_A.4_dbsnp-BQSR.sh). In step A5, we merge the resulting BAM and call variants (same procedure as in A3); we obtain a second sample-specific VCF file. This is done in [Create step_A.5_variant-calling.sh](Create step_A.5_variant-calling.sh).
 
-Finally, we proceed with the “triple mask BQSR” (by lane, step A6) on the output of step A2; we provide the two VCF files as known sites, together with dbSNP: []().
+Finally, we proceed with the “triple mask BQSR” (by lane, step A6) on the output of step A2; we provide the two VCF files as known sites, together with dbSNP: [step_A.6_triple-mask-BQSR.sh](step_A.6_triple-mask-BQSR.sh).
 
 ## Processing by sample: steps A7 to A9
 
-Are chrY and mt included at this step?
+In steps A7 to A9, we prepare a final BAM file for each sample:
+
+- in step A7, the outputs (by lane) of step A6 are merged and sorted: [step_A.7_merge-and-sort.sh](step_A.7_merge-and-sort.sh)
+- in step A8, duplicates are marked: [step_A.8_mark-duplicates.sh](step_A.8_mark-duplicates.sh)
+- and in step A9, indels are realigned: [step_A.9_indel-realignment.sh](step_A.9_indel-realignment.sh)
 
 ## StepA7
 

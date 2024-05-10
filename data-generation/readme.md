@@ -93,13 +93,15 @@ For the start of the processing, see steps A1 to A9. The X chromosome is process
 
 The variant calling is similar to steps A10 to A12 in the autosomes: HaplotypeCaller is run for each sample [step_X.1_variant-calling.sh](step_X.1_variant-calling.sh), then a multi-sample GVCF is obtained with CombineGVCF [step_X.2_combine-GVCF.sh](step_X.2_combine-GVCF.sh), and finally all samples are jointly genotyped with GenotypeGVCF [step_X.3_joint-genotyping.sh](step_X.3_joint-genotyping.sh). Note that the ploidy was set to 1 for males and 2 for females at the HaplotypeCaller step. At the CombineGVCF step, all samples were included.
 
-## Callset refinement: steps X4 and X5
+## Callset refinement: steps X4 to X6
 
-### SNP VQSR (step X4)
+### VQSR (steps X4 and X5)
 
 Three filtering approaches were compared for the SNPs on the X chromosome: GATK VQSR with only the X chromosome variants as input for the VariantRecalibrator step, tranche level of 99.9; GATK VQSR with the X and the autosomes variants as input for the VariantRecalibrator step, tranche level of 99.9; and hard filtering with GATK SelectVariants and VariantFiltration and the following thresholds: FisherStrand (FS>60.0), QualByDepth (QD<2.0), RMSMappingQuality (MQ<40.0), StrandOddsRatio (SOR>3), MappingQualityRankSumTest (MQRankSum<12.5), and ReadPosRankSumTest (ReadPosRankSum< -8.0).
 
-Based on the number of variants kept by each approach and the overlap between the callsets, we decided to continue with the VQSR where both the X chromosomal and the autosomal variants are fed to VariantRecalibrator. This is described in [](). Note that we did not perform an indel VQSR.
+Based on the number of variants kept by each approach and the overlap between the callsets, we decided to continue with the VQSR where both the X chromosomal and the autosomal variants are fed to VariantRecalibrator, for the SNP - see [step_X.4_SNP-VQSR.sh](step_X.4_SNP-VQSR.sh) - and the indels - [step_X.5_indel-VQSR.sh](step_X.5_indel-VQSR.sh). 
+
+**continue editing the indel VQSR step. Why did I start using dbsnp151? (instead of 144)**
 
 ### Additional filtering (step X5)
 

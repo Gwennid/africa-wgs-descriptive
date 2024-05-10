@@ -1,6 +1,11 @@
 This folder contains information regarding how the data was generated.
 
+The numbers refer to the processing flowchart.
+
 - [ ] Insert the (updated) flowchart
+- [ ] Add information about the QC
+- [ ] Add processing chromosome X
+- [ ] What about chromosome Y and mitochondria? Skip for now? In that case, remove from flowchart?
 
 # Mapping
 
@@ -52,13 +57,30 @@ In steps A7 to A9, we prepare a final BAM file for each sample:
 
 ## Variant calling: steps A10 to A12
 
-**continue here**
+The next three steps are the variant calling steps and concern only the autosomes, which are selected with a new interval list file. We use GATK/3.7. Variant calling is decomposed in three steps:
 
-The next three steps are the variant calling steps and concern only the autosomes, which are selected with a new interval list file. We use GATK/3.7. Variant calling is decomposed in three steps; first, variants are called in each individual, resulting in a gVCF file (step A10). We use the variant caller HaplotypeCaller in genotyping mode DISCOVERY and with the option emitRefConfidence BP_RESOLUTION. As we want to obtain a final VCF with information about all sites we do not use the option recommended by GATK Best Practices – emitRefConfidence GVCF - where information is condensed in “blocks” for the non-variable positions. We use tabix/0.2.6 to bgzip and index the output. The second step (A11) is to use the tool CombineGVCF to obtain multi-sample gVCF files. This speeds up the following step. We found that combining the 49 individuals from the central African dataset; the 25 individuals from the southern African dataset with the 24 SAHGP individuals; and the 81 remaining comparative individuals, allowed for a reasonably fast joint genotyping step. Finally, the third and last step (A12) is to jointly genotype all individuals with GenotypeGVCF.
+- First, variants are called in each individual, resulting in a GVCF file (step A10). We use the variant caller HaplotypeCaller in genotyping mode `DISCOVERY` and with the option `emitRefConfidence BP_RESOLUTION`. As we want to obtain a final VCF with information about all sites we do not use the option recommended by GATK Best Practices – `emitRefConfidence GVCF` - where information is condensed in “blocks” for the non-variable positions. We use tabix/0.2.6 to bgzip and index the output. This is done in [step_A.10_variant-calling.sh](step_A.10_variant-calling.sh).
+- The second step (A11) is to use the tool CombineGVCF to obtain multi-sample GVCF files. This speeds up the following step (joint genotyping). We found that combining the 49 individuals from the central African dataset; the 25 individuals from the southern African dataset with the 24 SAHGP individuals; and the 81 remaining comparative individuals, allowed for a reasonably fast joint genotyping step. This is done in [step_A.11_combine-GVCF.sh](step_A.11_combine-GVCF.sh).
+- Finally, the third and last step (A12) is to jointly genotype all individuals with GenotypeGVCF: [step_A.12_joint-genotyping.sh](step_A.12_joint-genotyping.sh).
 
-## Callset refinement: step A13 to A15
+## Callset refinement: steps A13 to A15
 
-xxx
+### VQSR
+
+GATK's Variant Quality Score Recalibration (VQSR) step recalibrates variant quality scores and produces a filtered callset. It is preferred to hard filtering. After building a recalibration model with VariantRecalibrator, the user chooses a threshold – called “tranche level” - for the filtering of the callset (performed with ApplyRecalibration). The higher that threshold, the more false positives the callset might contain. For the SNPs we chose a tranche level of 99.9 and for the indels of 99.0.
+
+We performed the SNP VQSR first: step A13, [step_A.13_SNP-VQSR.sh](step_A.13_SNP-VQSR.sh).
+
+Then we used the output of step A13 to perform the indel VQSR: step A14, [step_A.14_indel-VQSR.sh](step_A.14_indel-VQSR.sh).
+
+### Additional filtering
+
+**At which stage do we remove the two related individuals?**
+
+We used vcftools “--missing-site” to calculate missingness per site and vcftools “--hardy” to test for Hardy Weinberg equilibrium (HWE). We then changed the filter field in the VCF for: sites with a 'N' in the reference genome (to FAIL1_N); sites with more than 10% missingness (to FAIL2_M); and sites heterozygous in all individuals (to FAIL3_H) - using bash and awk commands. HWE-filtering at population-level is hindered by the small sample sizes. Finally, we modified the VCF header to include information about the new filter flags we introduced.
+
+We used GATK SelectVariants with option “trimAlternates” to restrict our callset to the variation present in the 177 unrelated individuals (while keeping all sites – we are only modifying the variant positions). We checked that running this step on the output of the preceding step was equivalent to using the tag “trimAlternates” at the step where the two related individuals are removed. We note that the sites which were variable in the total callset (179 individuals) and are not variable in the unrelated callset (177 individuals) appear as variable sites with “.” as alternate allele. It is not possible to make these entries look like usual non-variable sites using GATK tools (unless running GenotypeGVCF again without the two related individuals). This is a potential issue for downstream tools, as these sites might be counted as biallelic SNP monomorphic in the callset, even if all individuals are homozygous reference. It is thus important to keep track of how different tools treat these sites. We also noticed that the description of our custom filters in the header of the VCF disappears each time we run a new GATK column. The information is added back with a bash command (Appendix {SM:appendix}).
+
 
 # End of processing chromosome X
 

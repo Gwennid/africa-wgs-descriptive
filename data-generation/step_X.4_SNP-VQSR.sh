@@ -13,11 +13,11 @@ reference_hg38=/path/to/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa.alt
 inroot=25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites.combinedGVCF
 
 # Step 1: Variant Recalibrator
-hapmap=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/GATK_resource_bundle/b38/hg38bundle/hapmap_3.3.hg38.vcf.gz
-omni=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/GATK_resource_bundle/b38/hg38bundle/1000G_omni2.5.hg38.vcf.gz
-tusenG=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/GATK_resource_bundle/b38/hg38bundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz
-dbsnp=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/dbsnp151/human_9606_b151_GRCh38p7/00-All.newchrnames.db151.vcf.gz
-out=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/Gwenna_Xchr/VQSR/25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites.1-22X.recalSNP
+hapmap=/hg38bundle/hapmap_3.3.hg38.vcf.gz
+omni=/hg38bundle/1000G_omni2.5.hg38.vcf.gz
+tusenG=/hg38bundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz
+dbsnp=/dbsnp151/human_9606_b151_GRCh38p7/00-All.newchrnames.db151.vcf.gz
+out=25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites.1-22X.recalSNP
 
 java -Xmx24g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 	-T VariantRecalibrator \

@@ -50,23 +50,15 @@ In steps A7 to A9, we prepare a final BAM file for each sample:
 - in step A8, duplicates are marked: [step_A.8_mark-duplicates.sh](step_A.8_mark-duplicates.sh)
 - and in step A9, indels are realigned: [step_A.9_indel-realignment.sh](step_A.9_indel-realignment.sh)
 
-## StepA7
+## Variant calling: steps A10 to A12
 
-## StepA8
+**continue here**
 
-## StepA9
+The next three steps are the variant calling steps and concern only the autosomes, which are selected with a new interval list file. We use GATK/3.7. Variant calling is decomposed in three steps; first, variants are called in each individual, resulting in a gVCF file (step A10). We use the variant caller HaplotypeCaller in genotyping mode DISCOVERY and with the option emitRefConfidence BP_RESOLUTION. As we want to obtain a final VCF with information about all sites we do not use the option recommended by GATK Best Practices – emitRefConfidence GVCF - where information is condensed in “blocks” for the non-variable positions. We use tabix/0.2.6 to bgzip and index the output. The second step (A11) is to use the tool CombineGVCF to obtain multi-sample gVCF files. This speeds up the following step. We found that combining the 49 individuals from the central African dataset; the 25 individuals from the southern African dataset with the 24 SAHGP individuals; and the 81 remaining comparative individuals, allowed for a reasonably fast joint genotyping step. Finally, the third and last step (A12) is to jointly genotype all individuals with GenotypeGVCF.
 
-## StepA10
+## Callset refinement: step A13 to A15
 
-## StepA11
-
-## StepA12
-
-## StepA13
-
-## StepA14
-
-## StepA15
+xxx
 
 # End of processing chromosome X
 

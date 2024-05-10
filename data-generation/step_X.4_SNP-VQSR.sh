@@ -1,24 +1,18 @@
-#!/bin/bash -l
-#SBATCH -J VariantRecalibrator_SNP_25KS.49RHG.105comp_X
-#SBATCH -o VariantRecalibrator_SNP_25KS.49RHG.105comp_X.output
-#SBATCH -e VariantRecalibrator_SNP_25KS.49RHG.105comp_X.output
-# Default in slurm
-#SBATCH --mail-user gwenna.breton@ebc.uu.se
-#SBATCH --mail-type=FAIL,END
-# Request 48 hours run time
-#SBATCH -t 48:0:0
-#SBATCH -A snic2018-8-397
-#
-#SBATCH -p core -n 4
-# NOTE: You must not use more than 6GB of memory
+#This is template code for performing SNP VQSR on chromosome X.
+#Chromosome X and the 22 autosomes are used to build the model; the recalibration is then applied to chromosome X only.
+#We used the recommended tranche threshold for human data.
 
-module load bioinfo-tools GATK/3.7
+#Input:
+## VariantRecalibrator: outputs of step_A.12_joint-genotyping.sh and step_X.3_joint-genotyping.sh (multi-sample VCF)
+## ApplyRecalibration: output of step_X.3_joint-genotyping.sh
+#Output: VQSRed multi-sample VCF
 
-cd /proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/Gwenna_Xchr/VQSR
+#Program version: GATK/3.7
+reference_hg38=/path/to/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa.alt
 
-ref=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/reference_hg38/GRCh38_full_analysis_set_plus_decoy_hla.fa
-inroot=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/HC_BPresolution/3maskrecal.realn/25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites.combinedGVCF
+inroot=25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites.combinedGVCF
 
+# Step 1: Variant Recalibrator
 hapmap=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/GATK_resource_bundle/b38/hg38bundle/hapmap_3.3.hg38.vcf.gz
 omni=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/GATK_resource_bundle/b38/hg38bundle/1000G_omni2.5.hg38.vcf.gz
 tusenG=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/GATK_resource_bundle/b38/hg38bundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz
@@ -27,7 +21,7 @@ out=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_co
 
 java -Xmx24g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 	-T VariantRecalibrator \
-	-R $ref \
+	-R ${reference_hg38} \
 	-input ${inroot}.1.vcf.gz \
 	-input ${inroot}.2.vcf.gz \
 	-input ${inroot}.3.vcf.gz \
@@ -50,7 +44,7 @@ java -Xmx24g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 	-input ${inroot}.20.vcf.gz \
 	-input ${inroot}.21.vcf.gz \
 	-input ${inroot}.22.vcf.gz \
-	-input /proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/Gwenna_Xchr/VariantCalling/ALLDATA_X_JG.20190808.179ind.vcf.gz \
+	-input ALLDATA_X_JG.179ind.vcf.gz \
 	-resource:hapmap,known=false,training=true,truth=true,prior=15.0 $hapmap \
 	-resource:omni,known=false,training=true,truth=true,prior=12.0 $omni \
 	-resource:1000G,known=false,training=true,truth=false,prior=10.0 ${tusenG} \
@@ -68,14 +62,19 @@ java -Xmx24g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 	-tranchesFile ${out}.tranches \
 	-nt 4
 
-#Submit ApplyRecalibration
-cd /proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/Gwenna_Xchr/VQSR
-sbatch ApplyRecalibration_SNP_25KS.49RHG.105comp_X.sh
+# Step 2: Apply recalibration
+input=ALLDATA_X_JG.179ind.vcf.gz
+tranche=99.9
+output=ALLDATA_X_JG.179ind.recalSNP${tranche}.vcf.gz
 
-#QUESTION: Does it make sense to use the 1-22 that were SNP recalibrated independently from the X for the INDEL VQSR? (I think it should be fine and plan to do it that way, but perhaps it is not the best).
-#Why didn't I perform indel VQSR back then?
-
-
-
-
-
+java -Xmx6g -jar $GATK_HOME/GenomeAnalysisTK.jar \
+	-T ApplyRecalibration \
+	-R ${reference_hg38} \
+	-input $input \
+	-mode SNP \
+	--ts_filter_level $tranche \
+	-recalFile $out.recal \
+	-tranchesFile $out.tranches \
+	-o $output \
+	-nt 1 \
+	-L chrX

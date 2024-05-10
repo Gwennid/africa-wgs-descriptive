@@ -3,7 +3,7 @@
 #Input: output of step_X.1_variant-calling.sh -single sample GVCF- for the 179 samples.
 #Output: a multi-sample GVCF file
 
-# Program version: GATK/3.7, tabix/0.2.6
+# Program version: GATK/3.7
 reference_hg38=/path/to/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa.alt
 
 java -Xmx18g -jar /sw/apps/bioinfo/GATK/3.7/GenomeAnalysisTK.jar -T CombineGVCFs \

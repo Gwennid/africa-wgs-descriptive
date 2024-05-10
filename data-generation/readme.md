@@ -9,7 +9,7 @@ The numbers refer to the processing flowchart.
 
 # Mapping
 
-## Step0.1
+## Step 0.1
 
 We mapped reads to GRCh38 using bwakit/0.7.12 `bwa-mem` with the alt-aware procedure. The resulting BAM file was sorted and indexed. The mapping was done by lane for the data generated in this study, and by what we assumed to be lanes for the comparative dataset. The code changes depending on the input:
 
@@ -17,7 +17,7 @@ We mapped reads to GRCh38 using bwakit/0.7.12 `bwa-mem` with the alt-aware proce
 - mapped BAM: SGDP letter (IGB1, IGB2, KON2, LEM1, LEM2), HGDP, SAHGP: [step0.1.b_mapping.sh](step0.1.b_mapping.sh)
 - mapped BAM from which reads of interest need to be extracted: Schlebusch et al. 2020 (the same 25 Khoe-San individuals as included in this study):  [step0.1.c_mapping.sh](step0.1.c_mapping.sh)
 
-## Step0.2
+## Step 0.2
 
 In order to reduce the size of the BAM files we split the indexed BAM bwa into one BAM containing mapped reads and one containing unmapped reads (with samtools/1.1). Only the files with mapped reads were processed further. This is done in: [step_0.2_split-mapped-unmapped.sh](step_0.2_split-mapped-unmapped.sh)
 
@@ -75,12 +75,15 @@ Then we used the output of step A13 to perform the indel VQSR: step A14, [step_A
 
 ### Additional filtering
 
-**At which stage do we remove the two related individuals?**
+Additional filtering consists in (i) excluding two samples from the callset due to first degree relatedness to other samples, and (ii) filtering sites that are uncalled in the reference genome, have high missingness, or are heterozygous in all individuals. This is done in [step_A.15_filtering-after-VQSR.sh](step_A.15_filtering-after-VQSR.sh). More specifically:
 
-We used vcftools “--missing-site” to calculate missingness per site and vcftools “--hardy” to test for Hardy Weinberg equilibrium (HWE). We then changed the filter field in the VCF for: sites with a 'N' in the reference genome (to FAIL1_N); sites with more than 10% missingness (to FAIL2_M); and sites heterozygous in all individuals (to FAIL3_H) - using bash and awk commands. HWE-filtering at population-level is hindered by the small sample sizes. Finally, we modified the VCF header to include information about the new filter flags we introduced.
+#### Relatedness filtering
 
-We used GATK SelectVariants with option “trimAlternates” to restrict our callset to the variation present in the 177 unrelated individuals (while keeping all sites – we are only modifying the variant positions). We checked that running this step on the output of the preceding step was equivalent to using the tag “trimAlternates” at the step where the two related individuals are removed. We note that the sites which were variable in the total callset (179 individuals) and are not variable in the unrelated callset (177 individuals) appear as variable sites with “.” as alternate allele. It is not possible to make these entries look like usual non-variable sites using GATK tools (unless running GenotypeGVCF again without the two related individuals). This is a potential issue for downstream tools, as these sites might be counted as biallelic SNP monomorphic in the callset, even if all individuals are homozygous reference. It is thus important to keep track of how different tools treat these sites. We also noticed that the description of our custom filters in the header of the VCF disappears each time we run a new GATK column. The information is added back with a bash command (Appendix {SM:appendix}).
+We excluded the two samples with GATK SelectVariants. We used the option “trimAlternates” to restrict the callset to the variation present in the 177 unrelated samples (while keeping all sites – we are only modifying the variant positions). We note that the sites which were variable in the total callset (179 individuals) and are not variable in the unrelated callset (177 individuals) appear as variable sites with “.” as alternate allele. It is not possible to make these entries look like usual non-variable sites using GATK tools (unless running GenotypeGVCF again without the two related individuals). This is a potential issue for downstream tools, as these sites might be counted as biallelic SNP monomorphic in the callset, even if all individuals are homozygous reference.
 
+#### Other filtering
+
+We used vcftools `--missing-site` to calculate missingness per site and vcftools `--hardy` to test for Hardy Weinberg equilibrium (HWE). We then changed the filter field in the VCF for: sites with a 'N' in the reference genome (to FAIL1_N); sites with more than 10% missingness (to FAIL2_M); and sites heterozygous in all samples (to FAIL3_H) - using bash and awk commands. HWE-filtering at population-level is hindered by the small sample sizes. Finally, we modified the VCF header to include information about the new filter flags we introduced.
 
 # End of processing chromosome X
 

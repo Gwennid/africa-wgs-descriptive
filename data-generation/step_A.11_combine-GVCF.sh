@@ -1,8 +1,8 @@
-# This is template code for combining single sample gVCF into multi-sample gVCF.
+# This is template code for combining single sample GVCF into multi-sample GVCF.
 # It is run by chromosome.
 
-# Input: output of step_A.10_variant-calling.sh -single sample gVCF- for a number of samples (49 RHG; 25 KS + SAHGP samples; remaining comparative samples)
-# Output: a multi-sample gVCF file
+# Input: output of step_A.10_variant-calling.sh -single sample GVCF- for a number of samples (49 RHG; 25 KS + SAHGP samples; remaining comparative samples)
+# Output: a multi-sample GVCF file
 
 # Program version: GATK/3.7
 reference_hg38=/path/to/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa.alt

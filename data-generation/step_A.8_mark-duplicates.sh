@@ -1,4 +1,4 @@
-# This is template code for marking duplicate reads.
+# This is template code for marking duplicate reads (sample level).
 
 #Program version: picard/1.126
 #Input: output of step_A.7_merge-and-sort.sh

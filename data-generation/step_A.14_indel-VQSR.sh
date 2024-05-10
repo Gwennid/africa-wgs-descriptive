@@ -11,6 +11,7 @@ reference_hg38=/path/to/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa.alt
 # Step 1: Variant Recalibrator
 mills=/hg38bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
 inroot=25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites.combinedGVCF
+dbsnp=/dbsnp151/human_9606_b151_GRCh38p7/00-All.newchrnames.db151.vcf.gz
 
 java -Xmx24g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 	-T VariantRecalibrator \
@@ -20,7 +21,7 @@ java -Xmx24g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 	[...]
 	-input ${inroot}.22.recalSNP99.9.vcf.gz \
 	-resource:mills,known=false,training=true,truth=true,prior=12.0 $mills \
-	-resource:dbsnp,known=true,training=false,truth=false,prior=2.0 ${dbsnp151} \
+	-resource:dbsnp,known=true,training=false,truth=false,prior=2.0 $dbsnp \
 	-an DP \
 	-an QD \
 	-an FS \

@@ -6,6 +6,7 @@
 #Output: VQSRed multi-sample VCF
 
 #Program version: GATK/3.7
+reference_hg38=/path/to/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa.alt
 
 # Step 1: Variant Recalibrator
 hapmap=/hg38bundle/hapmap_3.3.hg38.vcf.gz
@@ -15,7 +16,7 @@ inroot=25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites.combinedGVCF
 
 java -Xmx24g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 	-T VariantRecalibrator \
-	-R $ref \
+	-R ${reference_hg38} \
 	-input ${inroot}.1.vcf.gz \
 	-input ${inroot}.2.vcf.gz \
 	[...]
@@ -47,7 +48,7 @@ java -Xmx18g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 	--ts_filter_level 99.9 \
 	-recalFile ${out}.recal \
 	-tranchesFile ${out}.tranches \
-	-o ${inroot.vqsredSNP99.9}.${CHR}.vcf.gz \
+	-o ${inroot}.${CHR}.recalSNP99.9.vcf.gz \
 	-nt 3 \
 	-L chr${CHR}
 done

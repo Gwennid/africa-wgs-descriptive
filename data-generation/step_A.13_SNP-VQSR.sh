@@ -2,8 +2,8 @@
 #The 22 autosomes are used to build the model; the recalibration is then applied to the separate VCF files.
 #We used the recommended tranche threshold for human data.
 
-#Input: output of step_A.12_joint-genotyping.sh
-#Output:
+#Input: output of step_A.12_joint-genotyping.sh (multi-sample VCF)
+#Output: VQSRed multi-sample VCF
 
 #Program version: GATK/3.7
 

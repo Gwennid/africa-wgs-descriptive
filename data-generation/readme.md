@@ -4,7 +4,7 @@ The numbers refer to the processing flowchart.
 
 - [ ] Insert the (updated) flowchart
 - [ ] Add information about the QC
-- [ ] Add processing chromosome X
+- [x] Add processing chromosome X
 - [ ] What about chromosome Y and mitochondria? Skip for now? In that case, remove from flowchart?
 
 # Mapping
@@ -101,11 +101,9 @@ Three filtering approaches were compared for the SNPs on the X chromosome: GATK 
 
 Based on the number of variants kept by each approach and the overlap between the callsets, we decided to continue with the VQSR where both the X chromosomal and the autosomal variants are fed to VariantRecalibrator, for the SNP - see [step_X.4_SNP-VQSR.sh](step_X.4_SNP-VQSR.sh) - and the indels - [step_X.5_indel-VQSR.sh](step_X.5_indel-VQSR.sh). 
 
-**continue editing the indel VQSR step. Why did I start using dbsnp151? (instead of 144)**
-
 ### Additional filtering (step X5)
 
-Further filtering of the X callset is similar to the autosomal callset and includes: relatedness filtering (the same two individuals were excluded like for the autosomes); and marking sites with a “N” in the reference genome or more than 10% missingness as fail. It is described in []().
+Further filtering of the X callset is similar to the autosomal callset and includes: relatedness filtering (the same two individuals were excluded like for the autosomes); and marking sites with a “N” in the reference genome or more than 10% missingness as fail. It is described in [step_X.6_filtering-after-VQSR.sh](step_X.6_filtering-after-VQSR.sh). Note that the `trimAlternates` option of SelectVariants could not be used.
 
 # Processing chromosome Y
 

@@ -65,7 +65,7 @@ The next three steps are the variant calling steps and concern only the autosome
 
 ## Callset refinement: steps A13 to A15
 
-### VQSR
+### VQSR (steps A13 and A14)
 
 GATK's Variant Quality Score Recalibration (VQSR) step recalibrates variant quality scores and produces a filtered callset. It is preferred to hard filtering. After building a recalibration model with VariantRecalibrator, the user chooses a threshold – called “tranche level” - for the filtering of the callset (performed with ApplyRecalibration). The higher that threshold, the more false positives the callset might contain. For the SNPs we chose a tranche level of 99.9 and for the indels of 99.0.
 
@@ -73,7 +73,7 @@ We performed the SNP VQSR first: step A13, [step_A.13_SNP-VQSR.sh](step_A.13_SNP
 
 Then we used the output of step A13 to perform the indel VQSR: step A14, [step_A.14_indel-VQSR.sh](step_A.14_indel-VQSR.sh).
 
-### Additional filtering
+### Additional filtering (step A15)
 
 Additional filtering consists in (i) excluding two samples from the callset due to first degree relatedness to other samples, and (ii) filtering sites that are uncalled in the reference genome, have high missingness, or are heterozygous in all individuals. This is done in [step_A.15_filtering-after-VQSR.sh](step_A.15_filtering-after-VQSR.sh). More specifically:
 
@@ -87,17 +87,23 @@ We used vcftools `--missing-site` to calculate missingness per site and vcftools
 
 # End of processing chromosome X
 
-For the start of the processing, see steps A1 to A9.
+For the start of the processing, see steps A1 to A9. The X chromosome is processed together with the autosomes up to (but excluding) the variant calling step. The input to step X1 is a triple-mask-BQSRed, dedup, and realigned BAM.
 
-## StepX1
+## Variant calling: steps X1 to X3
 
-## StepX2
+The variant calling is similar to steps A10 to A12 in the autosomes: HaplotypeCaller is run for each sample [step_X.1_variant-calling.sh](step_X.1_variant-calling.sh), then a multi-sample GVCF is obtained with CombineGVCF [step_X.2_combine-GVCF.sh](step_X.2_combine-GVCF.sh), and finally all samples are jointly genotyped with GenotypeGVCF [step_X.3_joint-genotyping.sh](step_X.3_joint-genotyping.sh). Note that the ploidy was set to 1 for males and 2 for females at the HaplotypeCaller step. At the CombineGVCF step, all samples were included.
 
-## StepX3
+## Callset refinement: steps X4 and X5
 
-## StepX4
+### SNP VQSR (step X4)
 
-## StepX5
+Three filtering approaches were compared for the SNPs on the X chromosome: GATK VQSR with only the X chromosome variants as input for the VariantRecalibrator step, tranche level of 99.9; GATK VQSR with the X and the autosomes variants as input for the VariantRecalibrator step, tranche level of 99.9; and hard filtering with GATK SelectVariants and VariantFiltration and the following thresholds: FisherStrand (FS>60.0), QualByDepth (QD<2.0), RMSMappingQuality (MQ<40.0), StrandOddsRatio (SOR>3), MappingQualityRankSumTest (MQRankSum<12.5), and ReadPosRankSumTest (ReadPosRankSum< -8.0).
+
+Based on the number of variants kept by each approach and the overlap between the callsets, we decided to continue with the VQSR where both the X chromosomal and the autosomal variants are fed to VariantRecalibrator. This is described in [](). Note that we did not perform an indel VQSR.
+
+### Additional filtering (step X5)
+
+Further filtering of the X callset is similar to the autosomal callset and includes: relatedness filtering (the same two individuals were excluded like for the autosomes); and marking sites with a “N” in the reference genome or more than 10% missingness as fail. It is described in []().
 
 # Processing chromosome Y
 

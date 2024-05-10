@@ -1,28 +1,17 @@
-#!/bin/bash -l
-#SBATCH -J VariantRecalibrator_INDEL_25KS.49RHG.105comp_X
-#SBATCH -o VariantRecalibrator_INDEL_25KS.49RHG.105comp_X.output
-#SBATCH -e VariantRecalibrator_INDEL_25KS.49RHG.105comp_X.output
-# Default in slurm
-#SBATCH --mail-user gwenna.breton@ebc.uu.se
-#SBATCH --mail-type=FAIL,END
-# Request 48 hours run time
-#SBATCH -t 48:0:0
-#SBATCH -A snic2018-8-397
-#
-#SBATCH -p core -n 4
-# NOTE: You must not use more than 6GB of memory
+#This is template code for performing indel VQSR on chromosome X.
+#Chromosome X and the 22 autosomes are used to build the model; the recalibration is then applied to chromosome X only.
+#We used the recommended tranche threshold for human data.
 
-module load bioinfo-tools GATK/3.7
-
-cd /proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/Gwenna_Xchr/VQSR
-
-ref=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/reference_hg38/GRCh38_full_analysis_set_plus_decoy_hla.fa
+#Input:
+## VariantRecalibrator: outputs of step_A.13_SNP-VQSR.sh and step_X.4_SNP-VQSR.sh (SNP VQSRed multi-sample VCF)
+## ApplyRecalibration: output of step_X.4_SNP-VQSR.sh
+#Output: SNP & indels VQSRed multi-sample VCF
 
 tranche=99.9
-inroot=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/HC_BPresolution/3maskrecal.realn/allsites/2_VQSR/25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites
-mills=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/GATK_resource_bundle/b38/hg38bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
-dbsnp=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/dbsnp151/human_9606_b151_GRCh38p7/00-All.newchrnames.db151.vcf.gz
-out=/proj/snic2020-2-10/uppstore2017183/b2012165_nobackup/private/Seq_project_cont/Gwenna_Xchr/VQSR/25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites.1-22X.recalSNP${tranche}.recalINDEL
+inroot=25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites
+mills=/b38/hg38bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
+dbsnp=/dbsnp151/human_9606_b151_GRCh38p7/00-All.newchrnames.db151.vcf.gz
+out=25KS.49RHG.105comp.HCBPresolution.GenotypeGVCFsallsites.1-22X.recalSNP${tranche}.recalINDEL
 
 java -Xmx24g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 	-T VariantRecalibrator \

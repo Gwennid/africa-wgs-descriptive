@@ -28,19 +28,23 @@ We marked duplicate reads with picard/1.126: [step_A.1_mark-duplicates.sh](step_
 
 We realigned around indels with GATK/3.5.0: [step_A.2_indel-realignment.sh](step_A.2_indel-realignment.sh)
 
-For realignement, the interval list file contains the 22 autosomes as well as chromosomes X, Y and the mitochondria. Moreover it contains contigs of the type “chr1_KI270706v1_random”, that are known to belong to a specific chromosome but for which the exact order or orientation is unknown, and contigs of the type “chrUn_KI270302v1” that cannot be confidently located on a specific chromosome. It does not contain the alt contigs.
+For realignment, the interval list file contains the 22 autosomes as well as chromosomes X, Y and the mitochondria. Moreover it contains contigs of the type “chr1_KI270706v1_random”, that are known to belong to a specific chromosome but for which the exact order or orientation is unknown, and contigs of the type “chrUn_KI270302v1” that cannot be confidently located on a specific chromosome. It does not contain the alt contigs.
 
 ## Triple mask BQSR: steps A3 to A6
 
 Steps A3 to A6 correspond to the process we name “triple mask BQSR” (Schlebusch et al. 2020, Breton et al. 2021)⁠ where BQSR stands for Base Quality Score Recalibration, a step which aims at calculating more accurate quality scores than those outputed by the sequencing machine. Briefly, instead of using only the standard reference dataset dbSNP to train the model, we first call variants for the specific individual and use the resulting VCF to train the model. GATK/3.5, samtools/1.1, picard/1.126, GATK/3.5, vcftools/0.1.13, tabix/0.2.6 and dbSNP144 were used throughout these steps.
 
-We start by calling variants on the output of step A2; to that end, we first merge the different BAM files for each sample. This resulted in a first sample-specific VCF file. This is done in []().
+From this step onward, only the autosomes (inclunding the "unknown" and "random" contigs) and chromosome X are considered.
 
-In parallel, we perform a standard BQSR (by lane) on the output of step A2: [](). In step A5, we merge the resulting BAM and call variants (same procedure as in A3); we obtain a second sample-specific VCF file. This is done in []().
+We start by calling variants on the output of step A2; to that end, we first merge the different BAM files for each sample. This results in a first sample-specific VCF file. This is done in [step_A.3_variant-calling.sh](step_A.3_variant-calling.sh).
+
+In parallel, we perform a standard BQSR (by lane) on the output of step A2: [step_A.4_dbsnp-BQSR.sh](step_A.4_dbsnp-BQSR.sh). In step A5, we merge the resulting BAM and call variants (same procedure as in A3); we obtain a second sample-specific VCF file. This is done in []().
 
 Finally, we proceed with the “triple mask BQSR” (by lane, step A6) on the output of step A2; we provide the two VCF files as known sites, together with dbSNP: []().
 
 ## Processing by sample: steps A7 to A9
+
+Are chrY and mt included at this step?
 
 ## StepA7
 

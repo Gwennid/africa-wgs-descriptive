@@ -1,5 +1,3 @@
-- [ ] Add information about the QC
-
 This folder contains information regarding how the data was generated (from raw reads to refined callset).
 
 The numbers refer to the processing flowchart:

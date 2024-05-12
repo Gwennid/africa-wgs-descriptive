@@ -2,6 +2,11 @@ This folder contains information regarding how the data was generated.
 
 The numbers refer to the processing flowchart.
 
+<!-- prettier-ignore -->
+<p align="center">
+    <img title="Processing workflow" src="images/FigureS1_BAMprocessing_20240512_1-22X.pdf" width=40%>
+</p>
+
 - [ ] Insert the (updated) flowchart
 - [ ] Add information about the QC
 - [x] Add processing chromosome X

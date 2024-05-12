@@ -5,7 +5,6 @@ The numbers refer to the processing flowchart.
 - [ ] Insert the (updated) flowchart
 - [ ] Add information about the QC
 - [x] Add processing chromosome X
-- [ ] What about chromosome Y and mitochondria? Skip for now? In that case, remove from flowchart?
 
 # Mapping
 
@@ -105,7 +104,6 @@ Based on the number of variants kept by each approach and the overlap between th
 
 Further filtering of the X callset is similar to the autosomal callset and includes: relatedness filtering (the same two individuals were excluded like for the autosomes); and marking sites with a “N” in the reference genome or more than 10% missingness as fail. It is described in [step_X.6_filtering-after-VQSR.sh](step_X.6_filtering-after-VQSR.sh). Note that the `trimAlternates` option of SelectVariants could not be used.
 
-# Processing chromosome Y
+# Quality control
 
-# Processing mitochondria
-
+xxx

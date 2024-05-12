@@ -11,6 +11,14 @@ The numbers refer to the processing flowchart:
 
 ## Step 0.1
 
+The reference genome, with decoy sequences, was downloaded from the 1000 Genomes Project website on 2015-09-09.
+
+Folder: ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/
+
+File: GRCh38_full_analysis_set_plus_decoy_hla.fa (“analysis set” 2015-09-08)
+
+It was indexed with samtools version 1.1 (Li et al. 2009)⁠ (faidx), bwa version 0.7.12 (Li and Durbin 2009)⁠ (index) and picard version 1.127 (CreateSequenceDictionary).
+
 We mapped reads to GRCh38 using bwakit/0.7.12 `bwa-mem` with the alt-aware procedure. The resulting BAM file was sorted and indexed. The mapping was done by lane for the data generated in this study, and by what we assumed to be lanes for the comparative dataset. The code changes depending on the input:
 
 - FASTQ: data generated in this study, SGDP (except "SGDP letter") and KGP: [step0.1.a_mapping.sh](step0.1.a_mapping.sh)

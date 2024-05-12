@@ -69,6 +69,8 @@ The next three steps are the variant calling steps and concern only the autosome
 
 GATK's Variant Quality Score Recalibration (VQSR) step recalibrates variant quality scores and produces a filtered callset. It is preferred to hard filtering. After building a recalibration model with VariantRecalibrator, the user chooses a threshold – called “tranche level” - for the filtering of the callset (performed with ApplyRecalibration). The higher that threshold, the more false positives the callset might contain. For the SNPs we chose a tranche level of 99.9 and for the indels of 99.0.
 
+Resources were downloaded from the GATK beta bundle for hg38 (downloaded on August 16 2016): a list of SNP from phase1 of the 1000 Genomes Project; a high quality SNP call set from HapMap (version 3.3); a set of SNP produced by Illumina Omni2.5 genotyping array for 1000 Genomes Project samples; and a list of high confidence indels “Mills_and_1000G_gold_standard.indels.hg38.vcf.gz”. Moreover we used dbSNP version 151.
+
 We performed the SNP VQSR first: step A13, [step_A.13_SNP-VQSR.sh](step_A.13_SNP-VQSR.sh).
 
 Then we used the output of step A13 to perform the indel VQSR: step A14, [step_A.14_indel-VQSR.sh](step_A.14_indel-VQSR.sh).
@@ -99,7 +101,7 @@ The variant calling is similar to steps A10 to A12 in the autosomes: HaplotypeCa
 
 Three filtering approaches were compared for the SNPs on the X chromosome: GATK VQSR with only the X chromosome variants as input for the VariantRecalibrator step, tranche level of 99.9; GATK VQSR with the X and the autosomes variants as input for the VariantRecalibrator step, tranche level of 99.9; and hard filtering with GATK SelectVariants and VariantFiltration and the following thresholds: FisherStrand (FS>60.0), QualByDepth (QD<2.0), RMSMappingQuality (MQ<40.0), StrandOddsRatio (SOR>3), MappingQualityRankSumTest (MQRankSum<12.5), and ReadPosRankSumTest (ReadPosRankSum< -8.0).
 
-Based on the number of variants kept by each approach and the overlap between the callsets, we decided to continue with the VQSR where both the X chromosomal and the autosomal variants are fed to VariantRecalibrator, for the SNP - see [step_X.4_SNP-VQSR.sh](step_X.4_SNP-VQSR.sh) - and the indels - [step_X.5_indel-VQSR.sh](step_X.5_indel-VQSR.sh). 
+Based on the number of variants kept by each approach and the overlap between the callsets, we decided to continue with the VQSR where both the X chromosomal and the autosomal variants are fed to VariantRecalibrator, for the SNP - see [step_X.4_SNP-VQSR.sh](step_X.4_SNP-VQSR.sh) - and the indels - [step_X.5_indel-VQSR.sh](step_X.5_indel-VQSR.sh). We used the same resources like for the autosomes.
 
 ### Additional filtering (step X5)
 

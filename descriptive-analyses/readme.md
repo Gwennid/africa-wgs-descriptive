@@ -40,6 +40,7 @@ plink
   --homozyg-window-threshold 0.05
   --out outprefix
 ```
+See [results/ROH](../results/ROH) for the output and how it was summarized prior to plotting.
 
 ## ASD and MDS
 

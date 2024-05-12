@@ -4,7 +4,7 @@ The numbers refer to the processing flowchart.
 
 <!-- prettier-ignore -->
 <p align="center">
-    <img title="Processing workflow" src="images/FigureS1_BAMprocessing_20240512_1-22X.pdf" width=40%>
+    <img title="Processing workflow" src="images/FigureS1_BAMprocessing_20240512_1-22X.png" width=40%>
 </p>
 
 - [ ] Insert the (updated) flowchart

@@ -66,5 +66,4 @@ Version: 1.3.0
 
 ```
 admixture /path/to/25KS.48RHG.104comp.HCBP.1-22.recalSNP99.9.recalINDEL99.0.FAIL1FAIL2FAIL3.reheaded.bialpassSNP.HF.indeppairwise_50_5_0.1.maf0.1.bed $k -s $RANDOM
-
 ```

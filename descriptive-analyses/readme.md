@@ -52,7 +52,7 @@ See [results/ROH](../results/ROH) for the output and how it was summarized prior
 
 Input: VQSRed, relatedness, site missingness 10%, HWE filter, biallelic SNPs with status "PASS", LD filter (autosomes).
 
-We computed the ASD matrix with the [asd](https://github.com/szpiech/asd/tree/master) version 1.0 software. Prior to that, the data was filtered for LD. (`plink --indep-pairwise 50 5 0.1`)
+We computed the ASD matrix with the [asd](https://github.com/szpiech/asd/tree/master) version 1.0 software. Prior to that, the data was filtered for LD with `plink --indep-pairwise 50 5 0.1`.
 
 ```
 asd --tped ${prefix}.tped --tfam ${prefix}.tfam --out ${prefix} --biallelic

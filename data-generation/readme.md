@@ -1,15 +1,13 @@
-This folder contains information regarding how the data was generated.
+- [ ] Add information about the QC
 
-The numbers refer to the processing flowchart.
+This folder contains information regarding how the data was generated (from raw reads to refined callset).
+
+The numbers refer to the processing flowchart:
 
 <!-- prettier-ignore -->
 <p align="center">
     <img title="Processing workflow" src="images/FigureS1_BAMprocessing_20240512_1-22X.png" width=40%>
 </p>
-
-- [ ] Insert the (updated) flowchart
-- [ ] Add information about the QC
-- [x] Add processing chromosome X
 
 # Mapping
 

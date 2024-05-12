@@ -8,7 +8,7 @@ Outputs are in [results/variant-counts](../results/variant-counts).
 
 ## Heterozyosity
 
-See the `heterozygosity` folder.
+See [heterozygosity](heterozygosity).
 
 ## Runs of homozygosity
 

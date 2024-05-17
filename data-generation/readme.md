@@ -63,7 +63,7 @@ In steps A7 to A9, we prepare a final BAM file for each sample:
 - in step A8, duplicates are marked: [step_A.8_mark-duplicates.sh](step_A.8_mark-duplicates.sh)
 - and in step A9, indels are realigned: [step_A.9_indel-realignment.sh](step_A.9_indel-realignment.sh)
 
-# Processing of autosomes only
+# Processing autosomes only
 
 ## Variant calling: steps A10 to A12
 

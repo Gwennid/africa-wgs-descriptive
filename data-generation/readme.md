@@ -31,7 +31,7 @@ In order to reduce the size of the BAM files we split the indexed BAM bwa into o
 
 # Processing autosomes and chromosome X
 
-Steps A1 to A9 are common to the autosomes and the chromosome X. From step A10, the autosomes (chromosomes 1 to 22) are extracted. See separate steps for chromosome X.
+Steps A1 to A9 are common to the autosomes and the chromosome X.
 
 We adapted the “GATK Best Practices” (McKenna et al. 2010)⁠ for the processing of the autosomes and of the X chromosome to retain as much diversity as possible ([processing pipeline](link to the processing pipeline), Breton et al. 2021, Schlebusch et al. 2020). We used GATK/3.5 for most steps. In particular our pipeline includes the step “realignment around indels” as recommended prior to release of GATK/3.6. We used GATK/3.7 from the final HaplotypeCaller command and downstream, due to an issue with the MQ (mapping quality) estimates with older versions. [processing pipeline](link to the processing pipeline) specifies at which level – lane, sample, batch or all samples – each step was performed. Only the final steps (joint genotyping and refinement of the callset) are performed on all samples together, making it easy to add new samples as more data is generated.
 
@@ -62,6 +62,8 @@ In steps A7 to A9, we prepare a final BAM file for each sample:
 - in step A7, the outputs (by lane) of step A6 are merged and sorted: [step_A.7_merge-and-sort.sh](step_A.7_merge-and-sort.sh)
 - in step A8, duplicates are marked: [step_A.8_mark-duplicates.sh](step_A.8_mark-duplicates.sh)
 - and in step A9, indels are realigned: [step_A.9_indel-realignment.sh](step_A.9_indel-realignment.sh)
+
+# Processing of autosomes only
 
 ## Variant calling: steps A10 to A12
 
@@ -95,7 +97,7 @@ We excluded the two samples with GATK SelectVariants. We used the option “trim
 
 We used vcftools `--missing-site` to calculate missingness per site and vcftools `--hardy` to test for Hardy Weinberg equilibrium (HWE). We then changed the filter field in the VCF for: sites with a 'N' in the reference genome (to FAIL1_N); sites with more than 10% missingness (to FAIL2_M); and sites heterozygous in all samples (to FAIL3_H) - using bash and awk commands. HWE-filtering at population-level is hindered by the small sample sizes. Finally, we modified the VCF header to include information about the new filter flags we introduced.
 
-# End of processing chromosome X
+# Processing chromosome X only
 
 For the start of the processing, see steps A1 to A9. The X chromosome is processed together with the autosomes up to (but excluding) the variant calling step. The input to step X1 is a triple-mask-BQSRed, dedup, and realigned BAM.
 

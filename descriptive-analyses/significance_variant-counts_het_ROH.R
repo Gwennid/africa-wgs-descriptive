@@ -8,7 +8,6 @@ setwd("/Users/gwennabreton/Documents/Previous_work/PhD_work/P2_RHG_KS/africa-wgs
 het <- read.table(file="/Users/gwennabreton/Documents/Previous_work/PhD_work/P2_RHG_KS/africa-wgs-descriptive/results/heterozygosity/allchr_42pop_Het_obs_exp_bialsites.txt", header=TRUE)
 #The variable that is plotted in Fig. 2B is H_E_UNBIASED_ALLSITES
 
-#Perhaps I need the following too:
 pop <- read.table(file="/Users/gwennabreton/Documents/Previous_work/PhD_work/P2_RHG_KS/africa-wgs-descriptive/results/helper_files//info_pop_for_plotting.txt",header = TRUE, sep="\t", quote="\"", comment.char="")
 a <- match(het$POPNAME, pop$POPNAMEHET)
 het2 <- data.frame(het, pop[a,])
@@ -73,3 +72,20 @@ wilcox.test(group1$H_E_UNBIASED_ALLSITES, group2$H_E_UNBIASED_ALLSITES, "two.sid
 # The two groups do not differ significantly.
 #W = 2242, p-value = 0.7726
 #alternative hypothesis: true location shift is not equal to 0
+
+# within nKS (our populations)
+wilcox.test(het2[het2$POPNAME=="Xun",]$H_E_UNBIASED_ALLSITES, het2[het2$POPNAME=="Juhoansi",]$H_E_UNBIASED_ALLSITES, "two.sided")
+# The two populations do not differ significantly
+#W = 306, p-value = 0.1372
+#alternative hypothesis: true location shift is not equal to 0
+
+# within sKS
+wilcox.test(het2[het2$POPNAME=="Nama",]$H_E_UNBIASED_ALLSITES, het2[het2$POPNAME=="Karretjiepeople",]$H_E_UNBIASED_ALLSITES, "two.sided")
+# W = 230, p-value = 0.7893
+
+wilcox.test(het2[het2$POPNAME=="Nama",]$H_E_UNBIASED_ALLSITES, het2[het2$POPNAME=="Khomani",]$H_E_UNBIASED_ALLSITES, "two.sided")
+# W = 307, p-value = 0.131
+
+wilcox.test(het2[het2$POPNAME=="Khomani",]$H_E_UNBIASED_ALLSITES, het2[het2$POPNAME=="Karretjiepeople",]$H_E_UNBIASED_ALLSITES, "two.sided")
+# W = 171, p-value = 0.09827
+

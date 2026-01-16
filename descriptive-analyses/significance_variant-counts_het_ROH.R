@@ -31,6 +31,12 @@ wilcox.test(het2[het2$POPNAME=="BaKola",]$H_E_UNBIASED_ALLSITES, het2[het2$POPNA
 #W = 282, p-value = 0.1787
 #alternative hypothesis: true location shift is greater than 0
 
+# Baka + Ba.Kola combined greater than Nzime + Ngumba
+group1 = het2[het2$POPNAME=="Baka" | het2$POPNAME=="BaKola" ,]
+group2 = het2[het2$POPNAME=="Nzime" | het2$POPNAME=="Ngumba" ,]
+wilcox.test(group1$H_E_UNBIASED_ALLSITES, group2$H_E_UNBIASED_ALLSITES, "greater")
+# W = 1170, p-value = 0.04637
+
 # more?
 
 ###
@@ -42,6 +48,11 @@ wilcox.test(group1$H_E_UNBIASED_ALLSITES, group2$H_E_UNBIASED_ALLSITES, "greater
 #significant: the het in our wRHG populations is greater than in our eRHG populations.
 #W = 1898, p-value = 0.003282
 #alternative hypothesis: true location shift is greater than 0
+
+#Can we use a t-test? (i.e. is the data normally distributed?)
+shapiro.test(group1$H_E_UNBIASED_ALLSITES)
+#p-value = 0.0002794
+#No, the data is not normally distributed
 
 #What if we include the Biaka and the Mbuti?
 group1 = het2[het2$POPNAME=="Baka" | het2$POPNAME=="BaKola" | het2$POPNAME=="AkaMbati" | het2$POPNAME=="Biaka" ,]

@@ -1,4 +1,4 @@
-The output from plink is: [25KS.48RHG.104comp.HCBP.1-22.recalSNP99.9.recalINDEL99.0.FAIL1FAIL2FAIL3.reheaded.bialpassSNP.HF.test1.homNEWNAMES.46pop](25KS.48RHG.104comp.HCBP.1-22.recalSNP99.9.recalINDEL99.0.FAIL1FAIL2FAIL3.reheaded.bialpassSNP.HF.test1.homNEWNAMES.46pop)
+The output from plink is: [25KS.48RHG.104comp.HCBP.1-22.recalSNP99.9.recalINDEL99.0.FAIL1FAIL2FAIL3.reheaded.bialpassSNP.HF.test1.homNEWNAMES](25KS.48RHG.104comp.HCBP.1-22.recalSNP99.9.recalINDEL99.0.FAIL1FAIL2FAIL3.reheaded.bialpassSNP.HF.test1.homNEWNAMES)
 
 We manipulated it to be able to distinguish between the two Ju|'hoansi population samples and the Mandinka/Mandenka samples: [commands_reformat_20230901.sh](commands_reformat_20230901.sh)
 

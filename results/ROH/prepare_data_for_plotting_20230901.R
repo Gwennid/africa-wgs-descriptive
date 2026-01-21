@@ -3,8 +3,9 @@
 # Goal: summarize the ROH information by pop and by length class for plotting.
 #This is based on code in 20200515_plotROH.R. Compared to it, I modified the result file to distinguish between Juhoansi and Juhoansi_comp (cf commands_reformat_20230901.sh).
 #2023-12-05: doing it again with the Mandenka and the Mandinka separated.
+#2026-01-16: new table with values per individual
 
-setwd("/Users/gwennabreton/Documents/Previous_work/PhD_work/P2_RHG_KS/writing/ms/ongoing/Figures/Figure_ROH/")
+setwd("/Users/gwennabreton/Documents/Research/Previous_work/PhD_work/P2_RHG_KS/writing/ms/ongoing/Figures/Figure_ROH/")
 #data1 <- read.table(file="25KS.48RHG.104comp.HCBP.1-22.recalSNP99.9.recalINDEL99.0.FAIL1FAIL2FAIL3.reheaded.bialpassSNP.HF.test1.homNEWNAMES.45pop",header=TRUE)
 data1 <- read.table(file = "25KS.48RHG.104comp.HCBP.1-22.recalSNP99.9.recalINDEL99.0.FAIL1FAIL2FAIL3.reheaded.bialpassSNP.HF.test1.homNEWNAMES.46pop", header=TRUE)
 
@@ -80,4 +81,54 @@ cat_all2_andmore_imeans3 <-cat_all2_andmore_imeans2/1000
 write.table(cat_all2_andmore_imeans3, file = "25KS.48RHG.104comp.HCBP.1-22.recalSNP99.9.recalINDEL99.0.FAIL1FAIL2FAIL3.reheaded.bialpassSNP.HF.test1.46pop.morethan4Mbp_means", sep = " ", col.names = FALSE, quote = FALSE)
 #Obs! I added manually "POP NA" for each of the populations for which there is no ROH in that length class.
 #The order of the populations is not the same like in the other files. I'm not plotting this class so it doesn't matter.
+
+###
+### 2026-01-16
+### Make a table with the total length of ROH in each of the four class per individual. The table will be used for significance testing.
+###
+
+setwd("/Users/gwennabreton/Documents/Research/Previous_work/PhD_work/P2_RHG_KS/writing/ms/ongoing/Figures/Figure_ROH/")
+data1 <- read.table(file = "25KS.48RHG.104comp.HCBP.1-22.recalSNP99.9.recalINDEL99.0.FAIL1FAIL2FAIL3.reheaded.bialpassSNP.HF.test1.homNEWNAMES.46pop", header=TRUE)
+
+#0.2-0.5Mbp
+cat_all <- data1[(data1$KB >= 200) & (data1$KB <= 500), ]
+cat_all_tmpp <- split(cat_all$KB, cat_all$IID)
+cat_all_sumind_02_05 <- sapply(cat_all_tmpp, sum)
+#0.5-1Mbp
+cat_all <- data1[(data1$KB >= 500) & (data1$KB <= 1000), ]
+cat_all_tmpp   <- split(cat_all$KB, cat_all$IID)
+cat_all_sumind_05_1 <- sapply(cat_all_tmpp, sum)
+#1-2 Mbp
+cat_all <- data1[(data1$KB >= 1000) & (data1$KB <= 2000), ]
+cat_all_tmpp   <- split(cat_all$KB, cat_all$IID)
+cat_all_sumind_1_2 <- sapply(cat_all_tmpp, sum)
+#2-4 Mbp
+cat_all <- data1[(data1$KB >= 2000) & (data1$KB <= 4000), ]
+cat_all_tmpp   <- split(cat_all$KB, cat_all$IID)
+cat_all_sumind_2_4 <- sapply(cat_all_tmpp, sum)
+
+# How can I match with different lengths? I could do it manually. Will be annoying but it would get the job done.
+
+#Put the first two categories together (there is 177 observations for each)
+sum_per_ind <- matrix(c(cat_all_sumind_02_05,cat_all_sumind_05_1),ncol=2)
+popnames <- data1$FID[match(names(cat_all_sumind_02_05), data1$IID)]
+write.table(file="Sum_ROH_by_ind_by_bin.txt",cbind(names(cat_all_sumind_02_05),popnames,sum_per_ind),
+            col.names = c("IND_ID","POP","0.2-0.5","0.5-1"),
+            row.names = FALSE)
+
+#Write out the category 1-2
+popnames <- data1$FID[match(names(cat_all_sumind_1_2), data1$IID)]
+write.table(file="Sum_ROH_by_ind_1-2.txt",cbind(names(cat_all_sumind_1_2),popnames,cat_all_sumind_1_2),
+            col.names = c("IND_ID","POP","1-2"),
+            row.names = FALSE)
+
+#Write out the category 2-4
+popnames <- data1$FID[match(names(cat_all_sumind_2_4), data1$IID)]
+write.table(file="Sum_ROH_by_ind_2-4.txt",cbind(names(cat_all_sumind_2_4),popnames,cat_all_sumind_2_4),
+            col.names = c("IND_ID","POP","2-4"),
+            row.names = FALSE)
+
+#Then I put together manually the three files and filled with NA the rows where there is no ROH in a given bin length.
+#Result: Sum_ROH_by_ind_by_bin.txt
+
 

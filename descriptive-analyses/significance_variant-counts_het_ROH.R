@@ -20,7 +20,6 @@ het <- read.table(file="/Users/gwennabreton/Documents/Research/Previous_work/PhD
 ###
 
 # Baka He greater than Nzime He
-#Does it make sense to use the chromosomes as a vector?
 wilcox.test(het[het$POPNAME=="Baka",]$H_E_UNBIASED_ALLSITES, het[het$POPNAME=="Nzime",]$H_E_UNBIASED_ALLSITES, "greater")
 #The het in Baka are not significantly greater than in Nzime
 #W = 302, p-value = 0.08204
@@ -62,8 +61,6 @@ wilcox.test(group1$H_E_UNBIASED_ALLSITES, group2$H_E_UNBIASED_ALLSITES, "greater
 #The het in wRHG pop is greater than in the eRHG pop.
 #W = 4042, p-value = 1.641e-05
 #alternative hypothesis: true location shift is greater than 0
-
-#Do we want to compare the variant counts too?
 
 ###
 ### “We find varying genetic variation across Northern Khoe-San populations (Xun and Juhoansi) and Southern KS populations (Nama, Karretjie People and Khomani).”
@@ -116,7 +113,7 @@ group2 = ROH[ROH$POP=="Nsua" | ROH$POP=="Mbuti" | ROH$POP=="Batwa" ,]
 
 ### Class 0.2-0.5
 median(group1$X0.2.0.5) #Median WP: 46513.26 kbp (46.51326 Mbp)
-median(group2$X0.2.0.5) #Median EP: 72284.26 kbp (72.28426 Mbp)
+median(group2$X0.2.0.5) #Median EP: 71284.26 kbp (71.28426 Mbp)
 wilcox.test(group1$X0.2.0.5, group2$X0.2.0.5, "less")
 # data:  group1$X0.2.0.5 and group2$X0.2.0.5
 # W = 11, p-value = 4.803e-08
@@ -170,7 +167,6 @@ wilcox.test(group1$X1.2, group2$X1.2, "greater")
 ####
 #### "individuals from Eastern RHG populations (Nsua, Mbuti, Ba.Twa), exhibit the longest total proportion of their autosomal genome in ROH across Sub-Saharan African populations, for all ROH length-classes, with the exception of #Khomani individuals from Southern Africa, and that of Coloured individuals for short ROH only"
 ####
-# How should we test that? group1 = eRHG, group 2 = the rest (minus Khomani and Coloured) ?
 
 ####
 #### "less short ROH, but more long ROH, in Western RHG than in all RHG neighboring populations across the Congo Basin except for the Ba.Kiga RHGn from Uganda"
@@ -199,8 +195,6 @@ round(median(group2$X1.2,na.rm=TRUE)/1000,2) #Median RHGn: 3.24 Mbp
 wilcox.test(group1$X1.2, group2$X1.2, "greater")
 # data:  group1$X1.2 and group2$X1.2
 # W = 255, p-value = 2.382e-07
-
-# I could redo the same tests and include the Ba.Kiga and see what happens. Are tests no longer significant?
 
 ####
 #### "all Northern and Southern Khoe-San populations have relatively similar total lengths of short ROH compared to that of RHG neighbors, with the notable exception of the !Xun, who have the smallest proportion of their genomes in short ROH, worldwide"
